@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 const nextConfig = {
   output: 'export',
-  assetPrefix: '/string-case-converter/',
+  assetPrefix: isDevelopment ? '' : '/string-case-converter/',
   reactStrictMode: true,
   images: {
     unoptimized: true
