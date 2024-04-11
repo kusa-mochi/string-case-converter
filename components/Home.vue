@@ -21,13 +21,16 @@
         </div>
     </div>
     <div>
-        <textarea v-model="inputStrings" readonly></textarea>
+        <textarea v-model="outputStrings" readonly></textarea>
     </div>
 </template>
 
 <script setup>
 const inputStrings = defineModel()
 inputStrings.value = "abcde"
+const outputStrings = computed(() => {
+    return "hoge: " + inputStrings.value
+})
 </script>
 
 <style scoped>
