@@ -41,9 +41,9 @@
 
 <script lang="ts" setup>
 const convertLine = (str: string, caseFrom: string, caseTo: string): string => {
-    // let validCharacters: string = ""
+    let ret: string = ""
     const separator: string = " "
-    let strArr: string[] = []   // ex. ["aaa", "bbb", "ccc", "9dd"]
+    let strArr: string[] = []   // ex. ["aaa", "bbb", "ccc", "dd9"]
     switch (caseFrom) {
         case "snake":
             strArr = str
@@ -56,55 +56,57 @@ const convertLine = (str: string, caseFrom: string, caseTo: string): string => {
                         .split("-")
             break
         case "camel":
-            strArr = str
-                        .replace(/[A-Z][a-z]/g, (match) => separator + match)
-                        .replace(/[A-Z]+$/g, (match) => separator + match)
-                        .trim()
-                        .split(" ")
-            break
         case "pascal":
             strArr = str
-                        .replace(/[A-Z][a-z]/g, (match) => separator + match)
+                        .replace(/[A-Z][a-z0-9]/g, (match) => separator + match)
                         .replace(/[A-Z]+$/g, (match) => separator + match)
                         .trim()
-                        .split(" ")
+                        .split(separator)
             break
         default:
-            throw new Error("invalid radio selection for input case")
+            throw new Error(`invalid radio selection for input case:${caseFrom}`)
     }
 
     switch (caseTo) {
         case "snake":
-            // TODO
-            break;
+            ret = strArr.join("_").toLowerCase()
+            break
         case "kebab":
-            // TODO
-            break;
+            ret = strArr.join("-").toLowerCase()
+            break
         case "camel":
-            // TODO
-            break;
+            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            strArr[0] = strArr[0].toLowerCase()
+            ret = strArr.join("")
+            break
         case "pascal":
-            // TODO
-            break;
+            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            ret = strArr.join("")
+            break
         default:
-            throw new Error("invalid radio selection for output case");            
+            throw new Error(`invalid radio selection for output case:${caseTo}`)
     }
+
+    return ret
 }
 const convert = (str: string, caseFrom: string, caseTo: string): string => {
-    // const strArr: string[] = str.split(/\n/)
+    if (str === undefined || str === null || str === "") return ""
+    if (caseFrom === undefined || caseFrom === null || caseFrom === "") return ""
+    if (caseTo === undefined || caseTo === null || caseTo === "") return ""
+    console.log(`str:${str}, caseFrom:${caseFrom}, caseTo:${caseTo}`)
     return str
             .split(/\n/)
-            .map(line => convertLine(line))
+            .map(line => convertLine(line, caseFrom, caseTo))
             .join("\n")
 }
-const inputStrings = ref<string>("aaa_bbb\nccc_ddd\neee_fff")
-const inputCase = ref<string>("snake")
+const inputStrings = ref<string>("aaaBbb\ncccDdd\neeeF64G3iABC")
+const inputCase = ref<string>("camel")
 // inputStrings.value = "abcde"
 // inputCase.value = "kebab"
-const outputStrings = computed(() => {
-    return convert(inputStrings.value, inputCase, outputCase)
-})
 const outputCase = ref<string>("snake")
+const outputStrings = computed(() => {
+    return convert(inputStrings.value, inputCase.value, outputCase.value)
+})
 </script>
 
 <style scoped>
