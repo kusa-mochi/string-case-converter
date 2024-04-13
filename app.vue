@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <Home></Home>
-  </div>
+  <v-app>
+    <v-container>
+      <Home></Home>
+    </v-container>
+  </v-app>
 </template>
 
 <script setup>
