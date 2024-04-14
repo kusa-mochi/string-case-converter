@@ -6,6 +6,7 @@
         <div>This is ...</div>
         <v-radio-group v-model="inputCase">
             <v-radio label="snake_case" value="snake"></v-radio>
+            <v-radio label="SNAKE_CASE" value="snake_upper"></v-radio>
             <v-radio label="kebab-case" value="kebab"></v-radio>
             <v-radio label="camelCase" value="camel"></v-radio>
             <v-radio label="PascalCase" value="pascal"></v-radio>
@@ -15,6 +16,7 @@
         <div>Convert to ...</div>
         <v-radio-group v-model="outputCase">
             <v-radio label="snake_case" value="snake"></v-radio>
+            <v-radio label="SNAKE_CASE" value="snake_upper"></v-radio>
             <v-radio label="kebab-case" value="kebab"></v-radio>
             <v-radio label="camelCase" value="camel"></v-radio>
             <v-radio label="PascalCase" value="pascal"></v-radio>
@@ -32,6 +34,11 @@ const convertLine = (str: string, caseFrom: string, caseTo: string): string => {
     let strArr: string[] = []   // ex. ["aaa", "bbb", "ccc", "dd9"]
     switch (caseFrom) {
         case "snake":
+            strArr = str
+                        .trim()
+                        .split("_")
+            break
+        case "snake_upper":
             strArr = str
                         .trim()
                         .split("_")
@@ -56,6 +63,9 @@ const convertLine = (str: string, caseFrom: string, caseTo: string): string => {
     switch (caseTo) {
         case "snake":
             ret = strArr.join("_").toLowerCase()
+            break
+        case "snake_upper":
+            ret = strArr.join("_").toUpperCase()
             break
         case "kebab":
             ret = strArr.join("-").toLowerCase()
