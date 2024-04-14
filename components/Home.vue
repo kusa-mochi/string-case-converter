@@ -61,12 +61,12 @@ const convertLine = (str: string, caseFrom: string, caseTo: string): string => {
             ret = strArr.join("-").toLowerCase()
             break
         case "camel":
-            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             strArr[0] = strArr[0].toLowerCase()
             ret = strArr.join("")
             break
         case "pascal":
-            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            strArr = strArr.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
             ret = strArr.join("")
             break
         default:
